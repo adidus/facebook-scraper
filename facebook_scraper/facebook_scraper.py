@@ -59,10 +59,10 @@ class FacebookScraper:
         ).json()
         logger.debug(f"Proxy details: {ip}")
 
-    def get_posts(self, account: str, **kwargs) -> Iterator[Post]:
+    def get_posts(self, account: str, page_limit: int, **kwargs) -> Iterator[Post]:
         kwargs["scraper"] = self
         iter_pages_fn = partial(iter_pages, account=account, request_fn=self.get, **kwargs)
-        return self._generic_get_posts(extract_post, iter_pages_fn, **kwargs)
+        return self._generic_get_posts(extract_post, iter_pages_fn, page_limit, **kwargs)
 
     def get_photos(self, account: str, **kwargs) -> Iterator[Post]:
         iter_pages_fn = partial(iter_photos, account=account, request_fn=self.get, **kwargs)
