@@ -32,12 +32,9 @@ class FacebookScraper:
     }
     have_checked_locale = False
 
-    def __init__(self, session=None, proxy=None, requests_kwargs=None):
+    def __init__(self, session=None, requests_kwargs=None):
         if session is None:
-            if proxy and proxy != '0':
-                session = HTMLSession(browser_args=[f"--proxy-server={proxy}"])
-            else:
-                session = HTMLSession()
+            session = HTMLSession()
             session.headers.update(self.default_headers)
 
         if requests_kwargs is None:
