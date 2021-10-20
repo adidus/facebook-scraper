@@ -374,13 +374,6 @@ class FacebookScraper:
                 url = utils.urljoin(FB_MOBILE_BASE_URL, url)
             response = self.session.get(url=url, **self.requests_kwargs, **kwargs)
             response.html.html = response.html.html.replace('<!--', '').replace('-->', '')
-
-            # TODO
-            response_ip = self.session.get(url='https://api.ipify.org', **self.requests_kwargs, **kwargs).text
-            warnings.warn(
-                f"IP ---> {response_ip}"
-            )
-
             response.raise_for_status()
             self.check_locale(response)
             if "cookie/consent-page" in response.url:
@@ -436,7 +429,7 @@ class FacebookScraper:
         elems = response.html.find("input[name][value]")
         data = {elem.attrs['name']: elem.attrs['value'] for elem in elems}
         data.update(extra_data)
-        response = self.session.post(url, data=data)
+        response = self.session.post(url, **self.requests_kwargs, data=data)
         return response
 
     def login(self, email: str, password: str):
