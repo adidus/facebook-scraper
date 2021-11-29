@@ -42,6 +42,9 @@ class FacebookScraper:
 
         self.session = session
         self.requests_kwargs = requests_kwargs
+        
+    def set_cookiejar(self, cookiejar):
+        self.session.cookies = cookiejar
 
     def set_user_agent(self, user_agent):
         self.session.headers["User-Agent"] = user_agent
